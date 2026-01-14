@@ -15,29 +15,28 @@ const ProductListingPage = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  if (loading) {
-    return (
-      <div className="page-container">
-        <div className="loading">Loading products...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="page-container">
-        <div className="error">Error: {error}</div>
-      </div>
-    );
-  }
-
   return (
     <div className="page-container">
       <h1 className="page-title">Discover Products</h1>
       <SearchBar />
       
-      {products.length === 0 ? (
-        <div className="no-results">
+      {loading ? (
+        <div className="products-grid">
+          {[...Array(8)].map((_, index) => (
+            <div key={index} className="skeleton-card">
+              <div className="skeleton-image"></div>
+              <div className="skeleton-text"></div>
+              <div className="skeleton-text short"></div>
+              <div className="skeleton-text"></div>
+            </div>
+          ))}
+        </div>
+      ) : error ? (
+        <div className="error-container">
+          <div className="error">Error: {error}</div>
+        </div>
+      ) : products.length === 0 ? (
+        <div className="no-results-container">
           <p>No products found matching your criteria.</p>
         </div>
       ) : (
